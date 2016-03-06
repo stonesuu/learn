@@ -173,4 +173,85 @@ To https://github.com/stonesuu/learn.git
 
 
 
+=================================================================================================================================
+=================================================================================================================================
+          16==========感觉奇怪。要将testdir中的心得这篇东西上传至远程。
+[python@localhost testdir]$ ll
+总用量 8
+-rw-rw-r--. 1 python python    0 3月   6 09:00 001
+-rw-rw-r--. 1 python python 7308 3月   6 09:46 github使用心得
+[python@localhost testdir]$ vi github使用心得 
+
+
+[python@localhost testdir]$ git init
+初始化空的 Git 版本库于 /home/python/gaolei_01/testdir/.git/
+[python@localhost testdir]$ git add .
+[python@localhost testdir]$ git commit -m "不知道这次行不行，因为init不在根下"
+[master（根提交） c7c81c7] 不知道这次行不行，因为init不在根下
+ 2 files changed, 176 insertions(+)
+ create mode 100644 001
+ create mode 100644 "github\344\275\277\347\224\250\345\277\203\345\276\227"
+[python@localhost testdir]$ git push -u origin master
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+           17=============这次在testdir中使用上传的语句。它在库目录的一个目录下。上传之本地貌似没啥问题。
+                          但是上传远程出错了。并且连下面的语句也没有显示了。
+
+
+[python@localhost testdir]$ git remote -v
+[python@localhost testdir]$ ll
+总用量 12
+-rw-rw-r--. 1 python python    0 3月   6 09:00 001
+-rw-rw-r--. 1 python python 9575 3月   6 10:59 github使用心得
+[python@localhost testdir]$ vi github使用心得 
+[python@localhost testdir]$ git push -u origin master
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+          18===========再次尝试，不行。   
+
+
+[python@localhost testdir]$ cd ..
+[python@localhost gaolei_01]$ ll
+总用量 8
+-rw-rw-r--. 1 python python 21 3月   6 08:42 README.md
+drwxrwxr-x. 3 python python 52 3月   6 11:04 testdir
+-rw-rw-r--. 1 python python 10 3月   5 20:38 zuoye.py
+[python@localhost gaolei_01]$ git init
+重新初始化现存的 Git 版本库于 /home/python/gaolei_01/.git/
+[python@localhost gaolei_01]$ git add .
+[python@localhost gaolei_01]$ git push -u origin master
+Username for 'https://github.com': stonesuu
+Password for 'https://stonesuu@github.com': 
+分支 master 设置为跟踪来自 origin 的远程分支 master。
+Everything up-to-date
+            19=============到根目录下重新尝试，由于认为之前已经上传至本地库了。直接上传至远程，然后没反应阿！！！！
+
+
+[python@localhost gaolei_01]$ 
+[python@localhost gaolei_01]$ git add .
+[python@localhost gaolei_01]$ git commit -m "try again"
+[master 26fe58d] try again
+ 1 file changed, 176 insertions(+)
+ create mode 100644 "testdir/github\344\275\277\347\224\250\345\277\203\345\276\227"
+[python@localhost gaolei_01]$ git push -u origin master
+Username for 'https://github.com': stonesuu
+Password for 'https://stonesuu@github.com': 
+Counting objects: 6, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 3.75 KiB | 0 bytes/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To https://github.com/stonesuu/learn.git
+   63cdb15..26fe58d  master -> master
+分支 master 设置为跟踪来自 origin 的远程分支 master。
+           20=============在根目录下，重新上传至本地库，然后才能上传至远程阿！！！！！！！ 
+
+
+
 
