@@ -252,6 +252,57 @@ To https://github.com/stonesuu/learn.git
 分支 master 设置为跟踪来自 origin 的远程分支 master。
            20=============在根目录下，重新上传至本地库，然后才能上传至远程阿！！！！！！！ 
 
+==============================================================================================================================
+==============================================================================================================================
+            21==============尝试用origin之外的名称创建新的连接，连接到新的库。顺便测试下。
+
+[python@localhost ~]$ mkdir test_git
+[python@localhost ~]$ 
+[python@localhost ~]$ cd test_git/
+           22=============本地建立新库，test_git，github上建立新库test_git，已经知道名称不必相同。
+
+
+[python@localhost test_git]$ 
+[python@localhost test_git]$ git init
+初始化空的 Git 版本库于 /home/python/test_git/.git/
+[python@localhost test_git]$ git remote add origin_02 https://github.com/stonesuu/test_git.git
+[python@localhost test_git]$ git pull origin_02 master
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+来自 https://github.com/stonesuu/test_git
+ * branch            master     -> FETCH_HEAD
+[python@localhost test_git]$ ll
+总用量 4
+-rw-rw-r--. 1 python python 10 3月   6 11:45 README.md
+          23=============在库的根目录下才能写，要注意。将origin_02与远程的test_git进行关联。
+                         同时将readme拉下来。
+
+
+[python@localhost test_git]$ mkdir testdir
+[python@localhost test_git]$ cd testdir/
+[python@localhost testdir]$ touch 001
+           24=============创建测试的目录,现在已经明白要把新目录上传，目录中必须有文件。
+
+
+[python@localhost testdir]$ cd ../
+[python@localhost test_git]$ git add .
+[python@localhost test_git]$ git commit -m "zheci yinggai ok"
+[master d85307c] zheci yinggai ok
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 testdir/001
+[python@localhost test_git]$ git push -u origin_02 master
+Username for 'https://github.com': stonesuu
+Password for 'https://stonesuu@github.com': 
+Counting objects: 5, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (4/4), 318 bytes | 0 bytes/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To https://github.com/stonesuu/test_git.git
+   ac82c74..d85307c  master -> master
+分支 master 设置为跟踪来自 origin_02 的远程分支 master。
+           25================回到根目录下，更新本地库，然后上传，成功！！！！！！！！
 
 
 
