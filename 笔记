@@ -1,0 +1,9 @@
+1=========对异常类的理解：
+1，所有产生的错误全部是相对应的异常类的实例。
+怎么理解，
+NameError: name 'x' is not defined
+ZeroDivisionError: integer division or modulo by zero
+这是两个错误产生的异常类的两个实例。这两个异常类就是NameError和ZeroDivisionError。
+2，这里要注意，冒号后面的才是该类的实例。可以这么说，当x的名字不同时，这个实例也是不同的。那么对于同样的错误类型，不同的参数，那产生的实例也不同。
+3，异常类的实例有点特殊，那就是当python打印出该实例时，前面带有一个这个实例的所属类的名称。后面才是该类的实例。
+
