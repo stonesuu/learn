@@ -6,4 +6,162 @@ ZeroDivisionError: integer division or modulo by zero
 这是两个错误产生的异常类的两个实例。这两个异常类就是NameError和ZeroDivisionError。
 2，这里要注意，冒号后面的才是该类的实例。可以这么说，当x的名字不同时，这个实例也是不同的。那么对于同样的错误类型，不同的参数，那产生的实例也不同。
 3，异常类的实例有点特殊，那就是当python打印出该实例时，前面带有一个这个实例的所属类的名称。后面才是该类的实例。
+4，这个名称特别有用，try..except就是通过检测这个名称来调用相应的实例的。！！！这个特性对于自创的异常类的子类同样适用！！！
+5,当使用raise产生异常类的时候，由于没有产生错误。所以这个类的实例是空的，（打印为空），实例也没有参数，所以也没有参数可以打印。
+想要出来点东西，那就自创一个子类，子类可以在创建时__init__就用print等产生动静，也可以再次创建方法，产生动静。
+例子：
+>>> try:
+...   raise NameError()
+... except NameError:
+...   print 'hahaha'
+... 
+hahaha
+>>> try:
+...   raise NameError()
+... except NameError:
+...   print NameError()
+...   print 'hahaha'
+... 
+
+hahaha
+第二个try在except后有打印这个实例的语句，但是显示只有一个空行。
+
+
+例子02：
+>>> raise NameError
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError
+>>> raise NameError()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError
+>>> type(NameError())
+<type 'exceptions.NameError'>
+>>> type(NameError)
+<type 'type'>
+直接使用raise语句，可以看见只有冒号前面的名称，没有实例本身显示出来。
+这里还要主义NameError和NameError()的区别，他们的type是不一样的。我现在还不了解。
+
+
+例子03
+>>> class MyPrint:
+...   def __init__(self):
+...     pass
+...
+>>> class MyPrint02(MyPrint):
+...   def __init__(self):
+...     MyPrint.__init__(self)
+...     print 'MyPrint init'
+...
+>>> MyPrint02()
+MyPrint init
+<__main__.MyPrint02 instance at 0xb7c835ec>
+>>> NameError()
+NameError()
+首先，异常类的实例在初始化的时候，显示出来的于普通类的实例有所区别。普通实例初始化如果没有动作语句
+则显示<__main__.blablabla>,异常类则显示出该实例名。自定义的异常类也是这样。例子04显示。
+但是shell中的显示于交互式不同：
+#!/usr/local/bin/python
+class MyPrint:
+  def __init__(self):
+    pass
+
+class MyPrint02(MyPrint):
+  def __init__(self):
+    MyPrint.__init__(self)
+    print 'MyPrint init'
+print 'MyPrint02()'
+MyPrint02()
+print 'NameError()'
+NameError()
+输出：
+MyPrint02()
+MyPrint init
+NameError()
+在shell中显示认为是比较正规的，在这里，如果实例本身没有输出的动作，那么shell就不会显示。由此联想到
+之前的list，变量等，在交互式命令行中，只要输入这个实例，就会给出显示。这方便测试，但是要现理解。
+而且认为以后的例子需要在shell中跑，这样得出的结果正式。
+
+
+例子04
+>>> class MyError(TypeError):
+...   def __init__(self):
+...     TypeError.__init__(self)
+...     print 'MyError init'
+...   def pit(self):
+...     print 'MyError Print'
+... 
+>>> MyError()
+MyError init
+MyError()
+>>> MyError().pit()
+MyError init
+MyError Print
+>>> M = MyError()
+MyError init
+>>> M.pit()
+MyError Print
+其次，明白了为什么在调用实例的时候，需要进行赋值操作。，这不是光为了简单。因为每一次调用实例，如果不调用
+命名的话，就是对该实例进行一次初始化。如果调用实例的方法，不预先赋值，那调用语句就变成俩个动作，先初始化，
+再调用。如果初始化有显示，那么就会显示出来。
+#!/usr/local/bin/python
+class MyError(TypeError):
+  def __init__(self):
+    TypeError.__init__(self)
+    print 'MyError init'
+  def pit(self):
+    print 'MyError Print'
+print 'MyError()'
+MyError()
+print 'MyError().pit()'
+MyError().pit()
+print 'M=MyError()'
+M = MyError()
+print 'M.pit()'
+M.pit()
+输出：
+MyError()
+MyError init
+MyError().pit()
+MyError init
+MyError Print
+M=MyError()
+MyError init
+M.pit()
+MyError Print
+发现shell与交互式的差别只在直接调用实例，没有指定操作的时候会不同。（赋值语句也是操作）
+
+
+
+>>> try:
+...   raise MyError()
+... except MyError:
+...   MyError()
+...   MyError().pit()
+... 
+MyError init
+MyError init
+MyError()
+MyError init
+MyError Print
+这下理解了为什么这里会出现这么多东西了。
+如果在shell中，输出应该是。
+MyError init
+MyError init
+MyError init
+MyError Print
+
+
+             
+
+
+
+
+
+
+
+
+
+
 
