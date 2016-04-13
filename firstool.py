@@ -1,6 +1,6 @@
 # -*- coding: gbk -*-
 import os
-def tongji(timechosen,destFile,addlist):
+def tongji(timechosen,addlist,destFile = 'D:\destfile.txt'):
     lastStr = '%s\n\n' % timechosen
     for add in addlist:
         lastStr += '''%s:\n''' % (add,)
@@ -15,14 +15,19 @@ def tongji(timechosen,destFile,addlist):
     t = open(destFile,'w')
     t.write(lastStr)
     t.close()
-    print '统计文件已经产生，路径为%s' % destFile
 
-timechosen = raw_input('输入日期（如2016-04-10）： ')
-destFile = raw_input('输入统计文件生成路径（如D:\destfile.txt)： ')
-print '这个版本地址是固定的。'
 addlist = ['10.66.1.%s' % x for x in range(3,11)]
-tongji(timechosen,destFile,addlist)
-
+timechosen = raw_input('输入日期（如2016-04-10）： ').strip( )
+destFile = raw_input('输入统计文件生成路径（默认为D:\destfile.txt)： ').strip( )
+if not destFile == '':
+    destDir = os.path.split(destFile)[0]
+    if not os.path.exists(destDir):
+        os.system('mkdir %s' % destDir)
+    tongji(timechosen,addlist,destFile)
+    print '统计文件已经产生，路径为%s' % destFile
+else:
+    tongji(timechosen,addlist)
+    print '统计文件已经产生，路径为D:\destfile.txt'
 
 
     
