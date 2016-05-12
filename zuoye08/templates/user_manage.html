@@ -1,0 +1,29 @@
+{% extends 'url_sta.html' %}
+
+
+{% block user_herf %}
+{% endblock %}
+
+
+{% block title %}
+用户表
+{% endblock %}
+
+
+{% block head %}
+<th>Username</th>
+<th>password</th>
+{% endblock %}
+
+
+{% block loop %}
+{% for sta in datalist %}
+<tr>
+    <td>{{sta[0]}}</td>
+    <td>{{sta[1]}}</td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block other %}
+{% endblock %}

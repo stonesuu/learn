@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/reboot.png">
+
+    <title>作业08</title>
+   
+    
+    <link href="../static/bootstrap.min.css" rel="stylesheet">
+
+   
+    <link href="../static/zuoye08.css" rel="stylesheet">
+	<style>
+	    #custom01 {width:70px;
+		           height:22px;}
+		.custom02 {width:48px;}
+
+	</style>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+       
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout">logout</a></li>
+			
+			<li>{% block user_herf %}<a href="/usermanage">User</a>{% endblock %}</li>
+			
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid" >
+
+        <div class="main" >
+          <h1 class="page-header">{% block title %}统计表{% endblock %}</h1>
+		  
+		  
+          <div class="table-responsive" >
+            <table class="table table-striped" style="margin-bottom:0">
+              <thead>
+                <tr>
+				{% block head %}
+                  <th>#</th>
+                  <th>IP</th>
+                  <th>Status</th>
+                  <th>Count</th>
+				 {% endblock %}
+                </tr>
+			  
+              </thead>
+              <tbody>
+			  {% block loop %}
+			  {% for sta in datalist %}
+                <tr>
+                  <td>{{sta[0]}}</td>
+                  <td>{{sta[1]}}</td>
+                  <td>{{sta[2]}}</td>
+                  <td>{{sta[3]}}</td>
+                </tr>
+			   {% endfor %}
+			   {% endblock %}
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+	{% block other %}
+    <div class="container">
+		<div class="row">
+		    <div class="col-md-1">
+                <form  action='/change' method='post'>
+                <input type='hidden' name='oper' value='plus'>
+                <input class="btn  btn-xs custom02" type='submit' value='next'>
+                </form>
+		    </div>
+
+            <div class="col-md-1 ">
+                <form  action='/change' method='post'>
+                <input type='hidden' name='oper' value='delete'>
+                <input class="btn  btn-xs custom02" type='submit' value='before'>
+                </form>
+            </div>
+		    <div class="col-md-1 col-md-offset-3" style="height:22px">
+				<p>Page:{{page}}</p>
+		    </div>
+		    <div class="col-md-2 col-md-offset-4" id="custom02">
+                <form class="form-inline" action='/change' method='post'>
+                <input type='hidden' name='oper' value='turnto'>
+                <input class="form-control " id="custom01" type='text' name='page' placeholder="page...">
+                <input class="btn  btn-xs custom02" type='submit' value='turn_to'>
+                </form>
+		    </div>
+		</div>
+	</div>
+	{% endblock %}
+  </body>
+</html>
