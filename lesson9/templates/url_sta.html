@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+<table class="table table-striped" style="margin-bottom:0">
+<thead>
+<tr>
+<th>#</th>
+<th>IP</th>
+<th>status</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody id='table-display'>
+</tbody>
+{%endblock%}
+
+{%block js%}
+<script>
+function getlist(){
+    var res = ''
+	$.getJSON('/getsta',function(res){
+	    $.each(res,function(index,value){
+		    res +='<tr><td>'+value[0]+'</td><td>'+value[1]+'</td><td>'+value[2]+'</td><td>'+value[3]+'</td></tr>'})
+			$('#table-display').html(res)})}
+getlist()
+</script>
+
+
+{%endblock%}

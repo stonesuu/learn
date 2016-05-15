@@ -1,0 +1,14 @@
+{% for sta in datalist %}
+
+<tr>
+<td>{{sta[1]}}</td>
+<td>{{sta[2]}}</td>
+<td>
+<form action='/deluser' method='post'>
+<input type='hidden' name='deluser' value={{sta[0]}}>
+<input  class = "btn btn-info btn-xs" type='submit' value='delete'>
+</form>
+</td>
+</tr>
+
+{% endfor %}

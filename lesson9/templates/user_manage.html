@@ -1,0 +1,168 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+<form id='addform' >
+username:<input type='text' name='user' id='user'>
+password:<input type='text' name='passwd' id='passwd'>
+<input id='adduser' type='submit' value='adduser'>
+</form>
+
+
+
+
+<table class="table table-striped" style="margin-bottom:0">
+<thead>
+<tr>
+<th>#</th>
+<th>username</th>
+<th>password</th>
+<th>delete</th>
+</tr>
+</thead>
+<tbody id='table-display'>
+<!--
+{% for sta in datalist %}
+
+<tr>
+<td>{{sta[1]}}</td>
+<td>{{sta[2]}}</td>
+<td>
+<form action='/deluser' method='post'>
+<input type='hidden' name='deluser' value={{sta[0]}}>
+<input  class = "btn btn-info btn-xs" type='submit' value='delete'>
+</form>
+</td>
+</tr>
+
+{% endfor %}
+-->
+</tbody>
+
+<!--
+<button class="btn btn-info" id='showmsg'>
+click me
+</button>
+<div class='alert alert-success' id='ajaxmsg'>
+</div>
+
+<button class="btn btn-success" id='hidebtn'>dianwo</button>
+
+<div id='test' class="alert alert-success">
+    init text
+</div>
+
+<button class="btn btn-info" id='table-click'>
+table_diaplay
+</button>
+
+<div class="alert alert-success" id='table-display-02'>
+</div>
+-->
+
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block js %}
+<!--
+<script>
+$('#showmsg').on('click',function(){
+    $.get('/testdata',function(res){
+	    $('#ajaxmsg').html(res)}
+	)}
+)
+</script>
+<script>
+$('#hidebtn').on('click',function(){
+	     $('#test').hide(1000)})
+</script>
+
+<script>
+$('#table-click').on('click',function(){
+    $.get('/tableshow',function(res){
+	    $('#table-display').html(res)}
+		)}
+)
+</script>
+-->
+
+<script>
+//function getlist(){
+//    $.get('/gettable',function(res){
+//	    $('#table-display').html(res)
+//		})
+//}
+
+function getlist(){
+var res = ''
+$.getJSON('/gettable',function(res){
+    $.each(res,function(index,value){
+	
+	res +='<tr><td>'+value[0]+'</td>'
+	res +='<td>'+value[1]+'</td>'
+	res +='<td>'+value[2]+'</td>'
+	res +='<td><button data-id="'+value[0]+'"class="btn btn-danger btn-xs delete-btn">delete</button></td></tr>'
+	})
+	$('#table-display').html(res)
+})
+}
+getlist()
+</script>
+<!--
+<script>
+$('#table-click').on('click',function(){
+var arr = ['hello','world','nihao']
+var res = '<table class="table-striped">'
+$.each(arr,function(index,value){
+res += '<tr><td>'+value+'</td></tr>'
+ })
+res += '</table>'
+function(res){$('#table-display-02').html(res)}
+
+})
+
+
+</script>
+-->
+<script>
+$('#adduser').on('click',function(){
+    console.log(this)
+    var url = '/adduser?'+$('#addform').serialize()
+	$.get(url,function(res){
+	    if(res=='ok'){
+		    $('#addform')[0].reset()
+			getlist()}
+		else{
+		    alert('error happened')}
+	})
+	return false
+})
+
+</script>
+
+<script>
+$(document).on('click','.delete-btn',function(){
+    var id = $(this).attr('data-id')
+	console.log(this)
+	if(confirm('confirm delete')){
+	    $.get('/deluser?id='+id,function(res){
+		    if(res=='ok'){
+			    alert('delete success')
+				getlist()
+			}
+		})
+	}
+})
+</script>
+
+
+
+{% endblock %}
+
+
+
