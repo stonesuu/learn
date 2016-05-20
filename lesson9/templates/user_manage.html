@@ -1,18 +1,33 @@
 {% extends 'layout.html' %}
 
+{% block title %}
+User
+{% endblock %}
+
+{% block sidebar %}
+ <li class="active"><a href="#">用户</a></li>
+ <li><a href="/url">日志</a></li>
+ {% endblock %}
+
 
 {% block body %}
 
-<form id='addform' >
-username:<input type='text' name='user' id='user'>
-password:<input type='text' name='passwd' id='passwd'>
-<input id='adduser' type='submit' value='adduser'>
+<form id='addform' class="form-inline" >
+  <div class="form-group">
+    <label class="sr-only" for="username">username</label>
+    <input type='text' name='user' class="form-control" id="username" placeholder="username">
+  </div>
+  <div class="form-group">
+    <label class="sr-only" for="password">password</label>
+    <input type='text' name='passwd' id='password' class="form-control" placeholder="password">
+  </div>
+  <button id='adduser' type='submit' class="btn btn-default">Add user</button>
 </form>
 
 
 
 
-<table class="table table-striped" style="margin-bottom:0">
+<table class="table table-striped" style="margin-bottom:0;margin-top:15px">
 <thead>
 <tr>
 <th>#</th>
@@ -22,74 +37,16 @@ password:<input type='text' name='passwd' id='passwd'>
 </tr>
 </thead>
 <tbody id='table-display'>
-<!--
-{% for sta in datalist %}
 
-<tr>
-<td>{{sta[1]}}</td>
-<td>{{sta[2]}}</td>
-<td>
-<form action='/deluser' method='post'>
-<input type='hidden' name='deluser' value={{sta[0]}}>
-<input  class = "btn btn-info btn-xs" type='submit' value='delete'>
-</form>
-</td>
-</tr>
-
-{% endfor %}
--->
 </tbody>
 
-<!--
-<button class="btn btn-info" id='showmsg'>
-click me
-</button>
-<div class='alert alert-success' id='ajaxmsg'>
-</div>
 
-<button class="btn btn-success" id='hidebtn'>dianwo</button>
-
-<div id='test' class="alert alert-success">
-    init text
-</div>
-
-<button class="btn btn-info" id='table-click'>
-table_diaplay
-</button>
-
-<div class="alert alert-success" id='table-display-02'>
-</div>
--->
 
 
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 
 {% block js %}
-<!--
-<script>
-$('#showmsg').on('click',function(){
-    $.get('/testdata',function(res){
-	    $('#ajaxmsg').html(res)}
-	)}
-)
-</script>
-<script>
-$('#hidebtn').on('click',function(){
-	     $('#test').hide(1000)})
-</script>
-
-<script>
-$('#table-click').on('click',function(){
-    $.get('/tableshow',function(res){
-	    $('#table-display').html(res)}
-		)}
-)
-</script>
--->
 
 <script>
 //function getlist(){
@@ -100,7 +57,7 @@ $('#table-click').on('click',function(){
 
 function getlist(){
 var res = ''
-$.getJSON('/gettable',function(res){
+$.getJSON('/getuser',function(res){
     $.each(res,function(index,value){
 	
 	res +='<tr><td>'+value[0]+'</td>'
@@ -113,33 +70,20 @@ $.getJSON('/gettable',function(res){
 }
 getlist()
 </script>
-<!--
-<script>
-$('#table-click').on('click',function(){
-var arr = ['hello','world','nihao']
-var res = '<table class="table-striped">'
-$.each(arr,function(index,value){
-res += '<tr><td>'+value+'</td></tr>'
- })
-res += '</table>'
-function(res){$('#table-display-02').html(res)}
 
-})
-
-
-</script>
--->
 <script>
 $('#adduser').on('click',function(){
-    console.log(this)
     var url = '/adduser?'+$('#addform').serialize()
+	if($('#username').val()=='' || $('#password').val()==''){
+	    alert('username or password cannot be null')}
+	else{
 	$.get(url,function(res){
 	    if(res=='ok'){
 		    $('#addform')[0].reset()
 			getlist()}
 		else{
 		    alert('error happened')}
-	})
+	})}
 	return false
 })
 
@@ -148,15 +92,15 @@ $('#adduser').on('click',function(){
 <script>
 $(document).on('click','.delete-btn',function(){
     var id = $(this).attr('data-id')
-	console.log(this)
 	if(confirm('confirm delete')){
 	    $.get('/deluser?id='+id,function(res){
 		    if(res=='ok'){
 			    alert('delete success')
-				getlist()
+				
 			}
 		})
 	}
+	getlist()
 })
 </script>
 

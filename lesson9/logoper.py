@@ -1,5 +1,5 @@
 import MySQLdb as mysql
-con = mysql.connect(db='gaolei',host='180.153.191.128',user='reboot',passwd='reboot123')
+con = mysql.connect(db='gaolei',host='localhost',user='root',passwd='123456')
 cursor = con.cursor()
 def sqloper(sql,ret=None):
     sql = sql
@@ -24,7 +24,13 @@ if __name__ == '__main__':
     for line in sorted(sta_list,key=(lambda x:x[1]),reverse=True)[:100]:
         sql = 'insert into url_sta (ip,status,count) values ("%s",%d,%d)' % (line[0][0],int(line[0][1]),line[1])
         resule_list.append(sqloper(sql,'ok'))
+    sql = 'commit'
+    sqloper(sql)
     print resule_list
+    sql = 'select * from url_sta'
+    sqloper(sql)
+    print cursor.fetchall()
+    
                       
     
 

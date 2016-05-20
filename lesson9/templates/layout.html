@@ -51,9 +51,13 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <!-- <li ><a href="#">Overview</a></li> -->
+            <!-- 
             <li class="active"><a href="#">用户</a></li>
             <li><a href="#">日志</a></li>
+			-->
+			{% block sidebar %}
+			{% endblock %}
+			
 
           </ul>
         </div>
@@ -61,7 +65,7 @@
 
           <h2 class="sub-header">
               {% block title%}
-
+                    
               {% endblock %}
           </h2>
           <div class="table-responsive">

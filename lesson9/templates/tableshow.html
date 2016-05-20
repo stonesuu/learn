@@ -1,14 +1,91 @@
-{% for sta in datalist %}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <form id="adduser">
+  <input type="text" name="username" id="username">
+  <input type="text" name="password" id="password">
+  <button id="adduser-click">adduser</button>
+  </form>
+  
+ 
+  
+  
+  <button id="click" attr="001">click</button>
+  <button class="del-button" attr="test">delete</button>
+  <table id="table" border="1">
+  </table>
+  <table id="table01" border="1">
+  </table>
+  <script src="../static/jquery.js"></script>
+  <script>
+    $('#click').on('click',function(){
+	    var arr = ['hello','world','nihao']
+		var res = ''
+		$.each(arr,function(index,value){
+		    res += '<tr><td>'+index+'</td><td>'+value+'</td></tr>'})
+		$('#table').html(res)
+})
+  </script>
+  
+  <script>
+    function getlist(){
+	    var res = ''
+        $.getJSON('/tableget',function(res){
+		    //console.log(res)
+		    $.each(res,function(index,value){
+			    res += '<tr><td>'+index+'</td><td>'+value[0]+'</td><td>'+value[1]+'</td><td>'+value[2]+'</td>'
+				res += '<td>'+'<button class="del-button" attr="'+value[0]+'">delete</button></tr>'})
+			$('#table01').html(res)})}
+  </script>
+  
+  <script>
+    function get(){
+	    $.get('/tableget',function(res){
+		    if (res=='error'){
+			    $('#table01').html(res)}
+			else{
+			    getlist()}})}
+	get()
 
-<tr>
-<td>{{sta[1]}}</td>
-<td>{{sta[2]}}</td>
-<td>
-<form action='/deluser' method='post'>
-<input type='hidden' name='deluser' value={{sta[0]}}>
-<input  class = "btn btn-info btn-xs" type='submit' value='delete'>
-</form>
-</td>
-</tr>
+  </script>
+  
+  <script>
+    $('#adduser-click').on('click',function(){
+	    var user=$('#username').val()
+		var passwd=$('#password').val()
+		if(user=='' || passwd==''){
+		    alert('items error')}
+		else{
+            var url = '/adduser?'+$('#adduser').serialize()
+	        $.get(url,function(res){
+	            if(res=='ok'){
+			        $('#adduser')[0].reset()
+				    alert('operation success')}
+			    else{
+			        alert('operation error')}})
+		    get()
+		    return false}
+		
+		})
+	
+  </script>
+  
+  <script>
+    $(document).on('click','.del-button',function(){
+	    var id = $(this).attr('attr')
+		var url = '/deluser?id='+id
+		if(confirm("Are you sure?")){
+		$.get(url,function(res){
+		    if(res=='ok'){
+			    alert('delete success')}
+			else{
+			    alert('delete error')}})
+		get()}})
+  </script>
+  
 
-{% endfor %}
+
+</body>
+</html>
