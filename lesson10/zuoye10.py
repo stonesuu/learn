@@ -125,6 +125,32 @@ def update():
         return 'error'
     else:
         return 'ok'
+
+@app.route('/host')
+def host():
+    return render_template('host_manage.html')
+
+@app.route('/gethost')
+def gethost():
+    sql = 'select * from host'
+    log.sqloper(sql)
+    res = json.dumps(log.cursor.fetchall())
+    return res
+
+@app.route('/addhost')
+def addhost():
+    host = request.args.get('host')
+    mem = int(request.args.get('mem')[:-1])
+    date = request.args.get('date')
+    email = request.args.get('email')
+    sql = 'insert into host(hostname,memory,date,email) values("%s",%s,"%s","%s")' % (host,mem,date,email)
+    try:
+        log.sqloper(sql)
+        log.sqloper('commit')
+    except:
+        return 'error'
+    else:
+        return 'ok'
     
 
 
