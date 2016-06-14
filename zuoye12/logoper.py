@@ -99,17 +99,21 @@ if __name__ == '__main__':
     db = DB('gaolei','localhost','root','123456')
     db.conn()
     sta = {}
-    sta_list = []
+    sta_change = {}
+    #sta_list = []
     with open('D:\Python27\log.log') as f:
         for line in f:
             tmp = line.split(' ')
             key = (tmp[0],tmp[8])
             sta[key] = sta.get(key,0)+1
-    for key,count in sta.items():
-        sta_list.append((key,count))
-    for line in sorted(sta_list,key=(lambda x:x[1]),reverse=True)[:300]:
-        sql = 'insert into url_sta (ip,status,count) values ("%s",%d,%d)' % (line[0][0],int(line[0][1]),line[1])
-        db.oper(sql)
+    #for key,count in sta.items():
+        #sta_list.append((key,count))
+    #for line in sorted(sta_list,key=(lambda x:x[1]),reverse=True)[:300]:
+        #sql = 'insert into url_sta (ip,status,count) values ("%s",%d,%d)' % (line[0][0],int(line[0][1]),line[1])
+        #db.oper(sql)
+    for key,val in sta.items():
+        tmp_dict = {'ip':key[0],'status':key[1],'count':val}
+        db.insert('url_sta',tmp_dict)
     sql = 'commit'
     db.oper(sql)
     #sql = 'select * from url_sta'
