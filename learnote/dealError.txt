@@ -1,0 +1,16 @@
+(1)zipimport.ZipImportError: can’t decompress data; zlib not available
+    解决办法：
+    (1)先安装系统相应的依赖库文件
+    sudo apt-get install zlibc zlib1g-dev
+    (2)到python安装目录下执行
+    sudo ./configure
+    编辑Modules/Setup文件
+    vim Modules/Setup
+    找到下面这句，去掉注释
+    #zlib zlibmodule.c -I$(prefix)/include -L$(exec_prefix)/lib -lz
+    重新编译安装：
+    sudo make
+    sudo make -i install
+    (3)重新执行
+    python ez_setup.py
+    现在就可以用 sudo easy_install 命令安装其他组件了
